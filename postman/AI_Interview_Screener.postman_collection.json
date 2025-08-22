@@ -1,0 +1,362 @@
+{
+	"info": {
+		"_postman_id": "ai-interview-screener-collection",
+		"name": "AI Interview Screener API",
+		"description": "Complete API collection for AI Interview Screener backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Generate Questions from JD",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-API-Key",
+						"value": "{{API_KEY}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"job_description_text\": \"We are looking for a Senior Software Engineer with 5+ years of experience in Python, Django, and REST APIs. The candidate should have experience with cloud platforms (AWS/GCP), microservices architecture, and agile development practices. Strong problem-solving skills and excellent communication abilities are required.\",\n    \"num_questions\": 6\n}"
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/generate-questions/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"generate-questions",
+						""
+					]
+				},
+				"description": "Generate interview questions based on job description text"
+			}
+		},
+		{
+			"name": "2. Create Candidate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-API-Key",
+						"value": "{{API_KEY}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"phone\": \"+1234567890\"\n}"
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/candidates/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"candidates",
+						""
+					]
+				},
+				"description": "Create a new candidate with E.164 phone number format"
+			}
+		},
+		{
+			"name": "3. Upload Resume",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-API-Key",
+						"value": "{{API_KEY}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "resume_file",
+							"type": "file",
+							"src": "/path/to/resume.pdf",
+							"description": "Upload PDF or DOCX resume file"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/candidates/{{CANDIDATE_ID}}/upload-resume/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"candidates",
+						"{{CANDIDATE_ID}}",
+						"upload-resume",
+						""
+					]
+				},
+				"description": "Upload and parse candidate resume (PDF/DOCX)"
+			}
+		},
+		{
+			"name": "4. Create Interview",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-API-Key",
+						"value": "{{API_KEY}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"candidate_id\": \"{{CANDIDATE_ID}}\",\n    \"job_description_id\": \"{{JOB_DESCRIPTION_ID}}\"\n}"
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/interviews/create/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"interviews",
+						"create",
+						""
+					]
+				},
+				"description": "Create an interview linking candidate and job description"
+			}
+		},
+		{
+			"name": "5. Trigger Interview Call",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-API-Key",
+						"value": "{{API_KEY}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{}"
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/interviews/{{INTERVIEW_ID}}/trigger/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"interviews",
+						"{{INTERVIEW_ID}}",
+						"trigger",
+						""
+					]
+				},
+				"description": "Trigger voice call to candidate for interview"
+			}
+		},
+		{
+			"name": "6. Get Interview Results",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-API-Key",
+						"value": "{{API_KEY}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/api/interviews/{{INTERVIEW_ID}}/results/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"interviews",
+						"{{INTERVIEW_ID}}",
+						"results",
+						""
+					]
+				},
+				"description": "Get complete interview results with questions, transcripts, scores, and recommendation"
+			}
+		},
+		{
+			"name": "List Candidates",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-API-Key",
+						"value": "{{API_KEY}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/api/candidates/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"candidates",
+						""
+					]
+				},
+				"description": "List all candidates"
+			}
+		},
+		{
+			"name": "List Interviews",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-API-Key",
+						"value": "{{API_KEY}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/api/interviews/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"interviews",
+						""
+					]
+				},
+				"description": "List all interviews"
+			}
+		},
+		{
+			"name": "Get Candidate Details",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-API-Key",
+						"value": "{{API_KEY}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/api/candidates/{{CANDIDATE_ID}}/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"candidates",
+						"{{CANDIDATE_ID}}",
+						""
+					]
+				},
+				"description": "Get candidate details including parsed resume data"
+			}
+		},
+		{
+			"name": "List Job Descriptions",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-API-Key",
+						"value": "{{API_KEY}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/api/job-descriptions/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"job-descriptions",
+						""
+					]
+				},
+				"description": "List all job descriptions"
+			}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "https://your-deployed-url.com",
+			"type": "string"
+		},
+		{
+			"key": "API_KEY",
+			"value": "test-api-key-123",
+			"type": "string"
+		},
+		{
+			"key": "CANDIDATE_ID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "JOB_DESCRIPTION_ID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "INTERVIEW_ID",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
