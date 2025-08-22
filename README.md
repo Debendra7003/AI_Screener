@@ -178,6 +178,3 @@ For issues or questions:
 3. Test Twilio webhook connectivity
 4. Validate phone number format (E.164)
 
-## License
-
-MIT License - see LICENSE file for details
